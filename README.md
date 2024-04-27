@@ -2,7 +2,7 @@
 
 ## 简介
 
-`JDBCUtils` 是一个基于 Java 的 JDBC 封装工具类，用于简化 JDBC 操作，提供了常用的数据库操作方法。
+`Ls-mybati` 是一个基于 Java 的 JDBC 封装库，用于简化 JDBC 操作，提供了常用的数据库操作方法。
 
 ## 功能特点
 
@@ -14,7 +14,6 @@
 - 查询符合条件的第一条记录
 - 保存对象到数据库表
 - 删除符合条件的记录
-- 将驼峰命名转换为下划线命名
 
 ## 使用方法
 
@@ -71,7 +70,7 @@ public class User {
     private String name;
 
     private int age;
-    private String createdTime;
+    private Long createdTime;
 
     //省略getter/setter
 }
@@ -83,10 +82,10 @@ public class User {
 ```java
 // 查询user表所有记录
 List<User> users;
-//使用JDBCUtils.select(Class<T> clazz)方法查询
+//1.使用JDBCUtils.select(Class<T> clazz)方法查询
 users =  JDBCUtils.select(User.class);
 
-//使用JDBCUtils.select(Class<T> clazz, QueryWrapper<T> queryWrapper)方法查询
+//2.使用JDBCUtils.select(Class<T> clazz, QueryWrapper<T> queryWrapper)方法查询
 QueryWrapper<User> queryWrapper = new QueryWrapper<>();
 users = JDBCUtils.select(User.class, queryWrapper);
 //users = JDBCUtils.select(User.class,null);  若queryWrapper为null，则查询所有数据
@@ -111,8 +110,112 @@ System.out.println(JSON.toJSON(users)); //JSON.toJSON() 将对象转换为JSON�
 ]
 ```
 
+#### 条件查询
+
+```java
+//使用JDBCUtils.select(Class<T> clazz, QueryWrapper<T> queryWrapper)方法查询
+//queryWrapper.eq(SFunction<T, ?> fn, Object value)
+// 第一个参数 方法引用https://www.runoob.com/java/java8-method-references.html
+// 第二个参数 条件表达式右侧的值
+QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+queryWrapper
+  .eq(User::getName, "Alice")  //eq 表示等于 <=> name = 'Alice'
+  .gt(User::getAge, 18)  //gt 表示大于 <=> age > 18
+  .lt(User::getAge, 30)  //lt 表示小于 <=> age < 30
+  .like(User::getName, "Alice");  //like 表示模糊查询 <=> name like '%Alice%'
+
+List<User> users = JDBCUtils.select(User.class, queryWrapper);
+System.out.println(JSON.toJSON(users)); //JSON.toJSON() 将对象转换为JSON字符串
+```
+生成的sql语句
+
+`SELECT * FROM user_tb WHERE name = 'Alice' AND age > 18 AND age < 30 AND name LIKE '%Alice%'`
+
+打印结果
+```json
+[
+    {
+        "age":25,
+        "createdTime":"1700000000000",
+        "id":1,
+        "name":"Alice"
+    }
+]
+```
+
+#### 查询满足条件的第一条记录
+```java
+//使用JDBCUtils.select(Class<T> clazz, QueryWrapper<T> queryWrapper)方法查询
+//queryWrapper.eq(SFunction<T, ?> fn, Object value)
+// 第一个参数 方法引用https://www.runoob.com/java/java8-method-references.html
+// 第二个参数 条件表达式右侧的值
+// 支持链式调用 也可以单独使用
+QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+queryWrapper.gt(User::getAge, 18);  //gt 表示大于 <=> age > 18
+
+User users = JDBCUtils.selectOne(User.class, queryWrapper);
+System.out.println(JSON.toJSON(users)); //JSON.toJSON() 将对象转换为JSON字符串
+```
+打印结果
+```json
+[
+    {
+        "age":25,
+        "createdTime":"1700000000000",
+        "id":1,
+        "name":"Alice"
+    }
+]
+```
+
+#### 保存对象和修改对象
+```java
+User user = new User();
+//user.setId(2) //未设置主键 插入数据
+user.setAge(99);
+user.setName("老王");
+user.setCreatedTime(System.currentTimeMillis());
+        
+int i = JDBCUtils.save(user);//若存在主键，则更新，否则插入 返回插入记录数量
+System.out.println(i);
+```
+打印结果
+
+`1`
+
+数据表(user)
+| id | name   | age | createdTime          |
+|----|--------|-----|----------------------|
+| 1  | Alice  | 25  | 1700000000000 |
+| 2  | Bob    | 30  | 1700000000000 |
+| 3 | 老王 | 99 | 1714230676389 |
+
+#### 删除记录
+```java
+QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+queryWrapper.eq(User::getName,"老王");//删除name="老王"的记录
+int i = JDBCUtils.delete(User.class, queryWrapper);
+System.out.println(i);
+```
+打印结果
+
+`1`
+
+数据表(user)
+| id | name   | age | createdTime          |
+|----|--------|-----|----------------------|
+| 1  | Alice  | 25  | 1700000000000 |
+| 2  | Bob    | 30  | 1700000000000 |
+
 
 ## 注意事项
 
 - 在使用工具类之前，确保已正确配置数据库连接信息。
 - 请根据实际情况调整工具类中的方法，以满足项目需求。
+
+## 联系方式
+
+如有任何问题或建议，请通过以下方式联系我：
+- Email:2900221581@qq.com
+- QQ:2900221581
+- 微信:CF154805214
