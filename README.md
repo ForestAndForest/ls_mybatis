@@ -25,6 +25,16 @@
 
 ## 使用示例
 
+### application.properties
+你可能需要额外引入mysql驱动
+```properties
+#mysql
+db.url=jdbc:mysql://localhost:3306/database
+db.username=username
+db.password=password
+db.driver=com.mysql.cj.jdbc.Driver
+```
+
 ### 数据库表结构
 
 #### 用户表（user）
