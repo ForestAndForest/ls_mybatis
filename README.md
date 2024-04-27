@@ -37,13 +37,46 @@
 | age        | int      | 年龄          |
 | createdTime| Long | 创建时间戳      |
 
-### user表查询
+#### user表查询
 
 | id | name   | age | createdTime          |
 |----|--------|-----|----------------------|
 | 1  | Alice  | 25  | 1700000000000 |
 | 2  | Bob    | 30  | 1700000000000 |
 
+
+### Java User实体
+
+```java
+@Table(value = "user")
+/**
+ * 注解@Table的作用是将Java对象映射到数据库中的表上。
+ * 若不写值，默认为类名。例如，@Table("user") 将该类映射到数据库中名为 "user" 的表。
+ */
+public class User {
+    @Id
+    /**
+     * 注解@Id的作用是将Java对象的属性映射到数据库中的主键上。
+     * 若不写值，默认为 "id" 属性。例如，@Id("id") 将该属性映射为数据库中的主键。
+     */
+    private int id;
+
+    @Column
+    /**
+     * 注解@Column的作用是将Java对象的属性映射到数据库中的列上。
+     * 若不写值，默认为字段名。例如，@Column("name") 将该属性映射为数据库中名为 "name" 的列。
+     * 若Java字段名满足驼峰命名规则，数据库字段名满足下划线命名规则，则不需要写@Column注解。
+     * 例如，Java字段名为 "userName"，数据库字段名为 "user_name"。
+     */
+    private String name;
+
+    private int age;
+    private String createdTime;
+
+    //省略getter/setter
+}
+```
+### JDBCUtils使用
 
 ```java
 // 查询所有记录
