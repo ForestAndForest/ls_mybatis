@@ -44,11 +44,11 @@ db.driver=com.mysql.cj.jdbc.Driver
 | id         | int      | 主键          |
 | name       | varchar  | 用户名        |
 | age        | int      | 年龄          |
-| createdTime| Long | 创建时间戳      |
+| created_time| Long | 创建时间戳      |
 
 #### user表查询
 
-| id | name   | age | createdTime          |
+| id | name   | age | created_time          |
 |----|--------|-----|----------------------|
 | 1  | Alice  | 25  | 1700000000000 |
 | 2  | Bob    | 30  | 1700000000000 |
@@ -194,7 +194,7 @@ System.out.println(i);
 `1`
 
 数据表(user)
-| id | name   | age | createdTime          |
+| id | name   | age | created_time          |
 |----|--------|-----|----------------------|
 | 1  | Alice  | 25  | 1700000000000 |
 | 2  | Bob    | 30  | 1700000000000 |
@@ -212,7 +212,7 @@ System.out.println(i);
 `1`
 
 数据表(user)
-| id | name   | age | createdTime          |
+| id | name   | age | created_time          |
 |----|--------|-----|----------------------|
 | 1  | Alice  | 25  | 1700000000000 |
 | 2  | Bob    | 30  | 1700000000000 |
