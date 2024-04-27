@@ -78,29 +78,39 @@ public class User {
 ```
 ### JDBCUtils使用
 
+#### 查询所有记录
+
 ```java
-// 查询所有记录
-List<User> userList = JDBCUtils.select(User.class);
+// 查询user表所有记录
+List<User> users;
+//使用JDBCUtils.select(Class<T> clazz)方法查询
+users =  JDBCUtils.select(User.class);
 
-// 查询符合条件的记录
+//使用JDBCUtils.select(Class<T> clazz, QueryWrapper<T> queryWrapper)方法查询
 QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-queryWrapper.eq("name", "Alice");
-List<User> userList = JDBCUtils.select(User.class, queryWrapper);
+users = JDBCUtils.select(User.class, queryWrapper);
+//users = JDBCUtils.select(User.class,null);  若queryWrapper为null，则查询所有数据
 
-// 查询符合条件的第一条记录
-User user = JDBCUtils.selectOne(User.class, queryWrapper);
-
-// 保存对象到数据库表
-User newUser = new User();
-newUser.setName("Bob");
-newUser.setAge(25);
-JDBCUtils.save(newUser);
-
-// 删除符合条件的记录
-QueryWrapper<User> deleteWrapper = new QueryWrapper<>();
-deleteWrapper.eq("id", 1);
-JDBCUtils.delete(User.class, deleteWrapper);
+System.out.println(JSON.toJSON(users)); //JSON.toJSON() 将对象转换为JSON字符串
 ```
+打印结果
+```json
+[
+    {
+        "age":25,
+        "createdTime":"1700000000000",
+        "id":1,
+        "name":"Alice"
+    },
+    {
+        "age":30,
+        "createdTime":"1700000000000",
+        "id":2,
+        "name":"Bob"
+    }
+]
+```
+
 
 ## 注意事项
 
