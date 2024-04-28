@@ -110,7 +110,7 @@ List<User> users;
 users =  JDBCUtils.select(User.class);
 
 //2.使用JDBCUtils.select(Class<T> clazz, QueryWrapper<T> queryWrapper)方法查询
-QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+QueryWrapper<User> queryWrapper = new QueryWrapper<>(User.class);
 users = JDBCUtils.select(User.class, queryWrapper); //queryWrapper未添加任何条件
 
 System.out.println(JSON.toJSON(users)); //JSON.toJSON() 将对象转换为JSON字符串
