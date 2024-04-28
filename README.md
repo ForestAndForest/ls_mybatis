@@ -86,7 +86,7 @@ public class User {
 
     private int age;
 
-    // @Column("create_time") //这里指定time字段映射到create_time列
+    // @Column("create_time") //这里指定createdTime字段映射到create_time列
     private Long createdTime;
 
     @Exclude
