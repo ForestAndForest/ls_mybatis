@@ -141,7 +141,7 @@ System.out.println(JSON.toJSON(users)); //JSON.toJSON() 将对象转换为JSON�
 // 第一个参数 方法引用https://www.runoob.com/java/java8-method-references.html
 // 第二个参数 条件表达式右侧的值
 // 支持链式调用 也可以单独使用
-QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+QueryWrapper<User> queryWrapper = new QueryWrapper<>(User.class);
 queryWrapper
   .eq(User::getName, "Alice")  //eq 表示等于 <=> name = 'Alice'
   .gt(User::getAge, 18)  //gt 表示大于 <=> age > 18
@@ -174,7 +174,7 @@ System.out.println(JSON.toJSON(users)); //JSON.toJSON() 将对象转换为JSON�
 // 第一个参数 方法引用https://www.runoob.com/java/java8-method-references.html
 // 第二个参数 条件表达式右侧的值
 // 支持链式调用 也可以单独使用
-QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+QueryWrapper<User> queryWrapper = new QueryWrapper<>(User.class);
 queryWrapper.gt(User::getAge, 18);  //gt 表示大于 <=> age > 18
 
 User users = JDBCUtils.selectOne(User.class, queryWrapper);
@@ -216,7 +216,7 @@ System.out.println(i);
 
 #### 删除记录
 ```java
-QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+QueryWrapper<User> queryWrapper = new QueryWrapper<>(User.class);
 queryWrapper.eq(User::getName,"老王");//删除name="老王"的记录
 int i = JDBCUtils.delete(User.class, queryWrapper);
 System.out.println(i);
