@@ -19,6 +19,7 @@ public class QueryWrapper<T> {
         this.clazz = clazz;
     }
 
+    //
     public QueryWrapper<T> orderBy(SFunction<T, Object> field, boolean isAsc) {
         String fieldName = FieldUtil.getField(field, clazz);
         orderBy =  new StringBuilder().append(" ORDER BY ").append(camelToSnakeCase(fieldName)).append(" ").append(isAsc ? "ASC" : "DESC");
