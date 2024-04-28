@@ -1,4 +1,4 @@
-# Ls-mybati
+# Ls-mybatis
 
 ## 简介
 
