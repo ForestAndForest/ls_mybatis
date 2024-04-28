@@ -93,7 +93,7 @@ public class User {
     /**
      * 注解@Exclude的作用是忽略被注解的字段
      * 在进行数据库操作时将被忽略
-    * /
+     */
     private String password;
 
     //省略getter/setter
