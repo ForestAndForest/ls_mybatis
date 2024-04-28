@@ -9,9 +9,9 @@ import java.util.Objects;
 public class QueryWrapper<T> {
 
     private final StringBuilder condition = new StringBuilder();
-    private final StringBuilder orderBy = new StringBuilder();
+    private StringBuilder orderBy = new StringBuilder();
     private StringBuilder groupBy = new StringBuilder();
-    private final StringBuilder limit = new StringBuilder();
+    private StringBuilder limit = new StringBuilder();
     private final StringBuilder having = new StringBuilder();
     private final Class<T> clazz;
 
@@ -21,7 +21,7 @@ public class QueryWrapper<T> {
 
     public QueryWrapper<T> orderBy(SFunction<T, Object> field, boolean isAsc) {
         String fieldName = FieldUtil.getField(field, clazz);
-        orderBy.append(" ORDER BY ").append(camelToSnakeCase(fieldName)).append(" ").append(isAsc ? "ASC" : "DESC");
+        orderBy =  new StringBuilder().append(" ORDER BY ").append(camelToSnakeCase(fieldName)).append(" ").append(isAsc ? "ASC" : "DESC");
         return this;
     }
 
@@ -32,7 +32,7 @@ public class QueryWrapper<T> {
     }
 
     public QueryWrapper<T> limit(int offset, int limit) {
-        this.limit.append(" LIMIT ").append(offset).append(",").append(limit);
+        this.limit = new StringBuilder().append(" LIMIT ").append(offset).append(",").append(limit);
         return this;
     }
 
